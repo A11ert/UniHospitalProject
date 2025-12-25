@@ -64,6 +64,13 @@ public class Patient {
         return true;
     }
 
+    public void addBalance(int number){
+        if(number<=0){
+            throw new IllegalArgumentException("Number to add to balance can't be zero or less");
+        }
+        balance+=number;
+    }
+
     public List<String> getAllergies() {
         return new ArrayList<>(allergies);
     }

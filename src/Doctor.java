@@ -85,6 +85,21 @@ public class Doctor {
         return true;
     }
 
+    public void cancelAppointment(String Id){
+        if(Id==null || Id.isBlank()){
+            throw new IllegalArgumentException("Id cant be empty");
+        }
+        for(int i=0; i<appointments.size(); i++){
+            Appointment ap=appointments.get(i);
+            if(Id.equals(ap.getId())){
+                this.appointments.get(i).cancel();
+                return;
+            }
+        }
+        System.out.println("There is no appointment with such Id");
+
+    }
+
     public int getAppointmentCount() {
         return appointments.size();
     }
@@ -94,10 +109,12 @@ public class Doctor {
             System.out.println("No appointments.");
             return;
         }
+        int count = 1;
         for (int i = 0; i < appointments.size(); i++) {
-            System.out.println("Appointment: " + (i + 1));
-            System.out.println("Id : " + appointments.get(i).getId() + ", At : " + appointments.get(i).getStartTime());
-
+            if(appointments.get(i).getStatus().equals(AppointmentStatus.SCHEDULED)){
+                System.out.println("Appointment: " + count);
+                System.out.println("Id : " + appointments.get(i).getId() + ", At : " + appointments.get(i).getStartTime());
+            }
         }
     }
 
