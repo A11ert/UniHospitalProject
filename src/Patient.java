@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Patient {
+
+    private String id;
+    private String name;
+    private int age;
+    private int balance;
+    private List<String> allergies = new ArrayList<>();
+
+    public Patient(String id, String name, int age, int balance){
+        setId(id);
+        setName(name);
+        setAge(age);
+        setBalance(balance);
+    }
+
+    public String getId(){return id;}
+    public void setId(String id){
+        if(id==null || id.isBlank()){
+            throw new IllegalArgumentException("Patient id can't be empty.");
+        }
+        this.id=id;
+    }
+
+    public String getName() {return name;}
+    public void setName(String name){
+        if(name==null || name.isBlank()){
+            throw new IllegalArgumentException("Patient name can't be empty.");
+        }
+        this.name=name;
+    }
+
+    public int getAge(){return age;}
+    public void setAge(int age){
+        if(age<=0){
+            throw new IllegalArgumentException("Patient age must be > 0.");
+        }
+        this.age=age;
+    }
+
+    public int getBalance(){return balance;}
+    public void setBalance(int balance){
+        if(balance<0){
+            throw new IllegalArgumentException("Patient balance must be > 0.");
+        }
+        this.balance=balance;
+    }
+
+    public boolean charge(int cost){
+        if(cost<0){
+            throw new IllegalArgumentException("Charge can't be < 0.");
+        }else if(balance-cost<0){
+            return false;
+        }
+        balance-=cost;
+        return true;
+    }
+
+    public List<String> getAllergies() {
+        return new ArrayList<>(allergies);
+    }
+    public void addAllergy(String allergy) {
+        if (allergy == null || allergy.isBlank()){
+            throw new IllegalArgumentException("Allergy cannot be empty.");
+        }
+        if (!allergies.contains(allergy)){
+            allergies.add(allergy);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Patient{id='%s', name='%s', age=%d, balance=%d}",
+                id, name, age, balance
+        );
+    }
+
+}
