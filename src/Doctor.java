@@ -7,9 +7,14 @@ public class Doctor {
     private String id;
     private String name;
     private int maxAppointments;
-    private List<Appointment> appointments = new ArrayList<>();
+    private List<Appointment> appointments;
+
+    public Doctor() {
+        this.appointments = new ArrayList<>();
+    }
 
     public Doctor(String id, String name, int maxAppointments){
+        this.appointments = new ArrayList<>();
         setId(id);
         setName(name);
         setMaxAppointments(maxAppointments);
@@ -20,7 +25,7 @@ public class Doctor {
     }
     public void setId(String id){
         if(id==null || id.isBlank()){
-            throw new IllegalArgumentException("Patient id can't be empty.");
+            throw new IllegalArgumentException("Doctor id can't be empty.");
         }
         this.id=id;
     }
@@ -30,7 +35,7 @@ public class Doctor {
     }
     public void setName(String name){
         if(name==null || name.isBlank()){
-            throw new IllegalArgumentException("Patient name can't be empty.");
+            throw new IllegalArgumentException("Doctor name can't be empty.");
         }
         this.name=name;
     }
@@ -40,7 +45,7 @@ public class Doctor {
     }
     public void setMaxAppointments(int number){
         if(number<0){
-            throw new IllegalArgumentException("max appointment can't be < 0.");
+            throw new IllegalArgumentException("Max appointment can't be < 0.");
         }
         maxAppointments=number;
     }
@@ -49,35 +54,56 @@ public class Doctor {
         return new ArrayList<>(appointments);
     }
 
-    //logic
-    public int countAppointmentsOn(LocalDate date) {
-        int count = 0;
-        for (Appointment a : appointments) {
-            if (a.getStartTime().toLocalDate().equals(date) && a.getStatus() != AppointmentStatus.CANCELLED) {
-                count++;
-            }
+    //logic for booking
+    public boolean booking(Appointment appointment){
+        boolean f=false;
+        if(appointment.getDoctor().getName()!=name){
+            System.out.println("This appointment is for another doctor");
+            return false;
         }
-        return count;
-    }
-
-    public boolean isAvailable(LocalDateTime start, int durationMinutes) {
-        Appointment temp = new Appointment("TEMP", null, this, start, durationMinutes);
         for(int i=0; i<appointments.size(); i++){
-            Appointment ap=appointments.get(i);
-            if(ap.getStatus()!=AppointmentStatus.CANCELLED && ap.overlaps(temp)){
-                return false;
+            Appointment ap = appointments.get(i);
+            //skip canceled status;
+            if(ap.getStatus()==AppointmentStatus.CANCELLED)continue;
+            //if new appointment is after start of other appointment but before its end
+            if(ap.getStartTime().isBefore(appointment.getStartTime()) && ap.endTime().isAfter(appointment.getStartTime())){
+                f=true;
+                break;
+            }
+            // if new appointment if before start of other appointment but end after it
+            if(ap.getStartTime().isAfter(appointment.getStartTime()) && appointment.endTime().isAfter(ap.getStartTime())){
+                f=true;
+                break;
             }
         }
-        return true;
-    }
+        if(f){
+            System.out.println("It's impossible to book appointment for doctor "+appointment.getDoctor().getName() + " at : "+ appointment.getStartTime() +".");
 
-    public boolean bookAppointment(Appointment appointment) {
-        LocalDate date = appointment.getStartTime().toLocalDate();
-
-        if (countAppointmentsOn(date) >= maxAppointments) return false;
-        if (!isAvailable(appointment.getStartTime(), appointment.getDurationMinutes())) return false;
-
+            return false;
+        }
         appointments.add(appointment);
         return true;
     }
+
+    public int getAppointmentCount() {
+        return appointments.size();
+    }
+
+    public void printAppointments() {
+        if (appointments.isEmpty()) {
+            System.out.println("No appointments.");
+            return;
+        }
+        for (int i = 0; i < appointments.size(); i++) {
+            System.out.println("Appointment: " + (i + 1));
+            System.out.println("Id : " + appointments.get(i).getId() + ", At : " + appointments.get(i).getStartTime());
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor " + name + ", id "+id+".";
+    }
+
 }

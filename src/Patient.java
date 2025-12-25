@@ -7,9 +7,14 @@ public class Patient {
     private String name;
     private int age;
     private int balance;
-    private List<String> allergies = new ArrayList<>();
+    private List<String> allergies;
+
+    public Patient() {
+        this.allergies = new ArrayList<>();
+    }
 
     public Patient(String id, String name, int age, int balance){
+        this.allergies = new ArrayList<>();
         setId(id);
         setName(name);
         setAge(age);
@@ -43,7 +48,7 @@ public class Patient {
     public int getBalance(){return balance;}
     public void setBalance(int balance){
         if(balance<0){
-            throw new IllegalArgumentException("Patient balance must be > 0.");
+            throw new IllegalArgumentException("Patient balance must be cant be negative..");
         }
         this.balance=balance;
     }
@@ -52,6 +57,7 @@ public class Patient {
         if(cost<0){
             throw new IllegalArgumentException("Charge can't be < 0.");
         }else if(balance-cost<0){
+            System.out.println("Not enough balance.");
             return false;
         }
         balance-=cost;
@@ -72,10 +78,9 @@ public class Patient {
 
     @Override
     public String toString() {
-        return String.format(
-                "Patient{id='%s', name='%s', age=%d, balance=%d}",
-                id, name, age, balance
-        );
+        return "Patient : " + name
+                + ", id : "+id
+                + ", age : "+ age
+                + ", balance : "+balance+".";
     }
-
 }
