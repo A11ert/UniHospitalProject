@@ -53,6 +53,7 @@ public class Patient {
         this.balance=balance;
     }
 
+    //method to charge for procedure or smth like that
     public boolean charge(int cost){
         if(cost<0){
             throw new IllegalArgumentException("Charge can't be < 0.");
@@ -64,6 +65,15 @@ public class Patient {
         return true;
     }
 
+    // method to add balance
+    public void addBalance(int number){
+        if(number<=0){
+            throw new IllegalArgumentException("Number to add to balance can't be zero or less");
+        }
+        balance+=number;
+    }
+
+    //allergy
     public List<String> getAllergies() {
         return new ArrayList<>(allergies);
     }

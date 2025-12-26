@@ -72,7 +72,6 @@ public class Appointment {
     public LocalDateTime endTime(){
         return (startTime.plusMinutes(durationMinutes));
     }
-
     public void cancel() {
         this.status = AppointmentStatus.CANCELLED;
     }
