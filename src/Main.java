@@ -13,6 +13,7 @@ public class Main {
         //two different appointments. Second appointment overlaps another
         Appointment ap1 = new Appointment("1", p1, d1, LocalDateTime.of(2025, 12, 26, 10, 0), 25);
 
+        System.out.println(p1);
         //booking method for first appointment and Check if appointment is successful.
         d1.booking(ap1);
         d1.printAppointments();

@@ -6,7 +6,7 @@ import java.util.List;
 public class Doctor {
     private String id;
     private String name;
-    private int maxAppointments;
+    private int maxAppointments; // no function
     private List<Appointment> appointments;
 
     public Doctor() {
@@ -40,6 +40,7 @@ public class Doctor {
         this.name=name;
     }
 
+    //i dont use it
     public int getMaxAppointments(){
         return maxAppointments;
     }
@@ -70,7 +71,7 @@ public class Doctor {
                 f=true;
                 break;
             }
-            // if new appointment if before start of other appointment but end after it
+            // if new appointment is before start of other appointment but end after it
             if(ap.getStartTime().isAfter(appointment.getStartTime()) && appointment.endTime().isAfter(ap.getStartTime())){
                 f=true;
                 break;
@@ -78,13 +79,13 @@ public class Doctor {
         }
         if(f){
             System.out.println("It's impossible to book appointment for doctor "+appointment.getDoctor().getName() + " at : "+ appointment.getStartTime() +".");
-
             return false;
         }
         appointments.add(appointment);
         return true;
     }
 
+    // method to cancel appointments
     public void cancelAppointment(String Id){
         if(Id==null || Id.isBlank()){
             throw new IllegalArgumentException("Id cant be empty");
@@ -104,6 +105,7 @@ public class Doctor {
         return appointments.size();
     }
 
+    //print all appointments for doctor
     public void printAppointments() {
         if (appointments.isEmpty()) {
             System.out.println("No appointments.");
