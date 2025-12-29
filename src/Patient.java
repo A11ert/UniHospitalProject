@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Patient {
 
-    private String id;
+    private int id;
     private String name;
     private int age;
     private int balance;
@@ -13,7 +13,7 @@ public class Patient {
         this.allergies = new ArrayList<>();
     }
 
-    public Patient(String id, String name, int age, int balance){
+    public Patient(int id, String name, int age, int balance){
         this.allergies = new ArrayList<>();
         setId(id);
         setName(name);
@@ -21,36 +21,40 @@ public class Patient {
         setBalance(balance);
     }
 
-    public String getId(){return id;}
-    public void setId(String id){
-        if(id==null || id.isBlank()){
-            throw new IllegalArgumentException("Patient id can't be empty.");
+    public int getId(){return id;}
+    public boolean setId(int id){
+        if(id<=0){
+            return false;
         }
         this.id=id;
+        return true;
     }
 
     public String getName() {return name;}
-    public void setName(String name){
+    public boolean setName(String name){
         if(name==null || name.isBlank()){
-            throw new IllegalArgumentException("Patient name can't be empty.");
+            return false;
         }
         this.name=name;
+        return true;
     }
 
     public int getAge(){return age;}
-    public void setAge(int age){
+    public boolean setAge(int age){
         if(age<=0){
-            throw new IllegalArgumentException("Patient age must be > 0.");
+            return false;
         }
         this.age=age;
+        return true;
     }
 
     public int getBalance(){return balance;}
-    public void setBalance(int balance){
+    public boolean setBalance(int balance){
         if(balance<0){
-            throw new IllegalArgumentException("Patient balance must be cant be negative..");
+            return false;
         }
         this.balance=balance;
+        return true;
     }
 
     public boolean charge(int cost){

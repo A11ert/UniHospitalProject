@@ -59,7 +59,7 @@ src:
 ### Appointment
 <img width="1288" height="451" alt="image" src="https://github.com/user-attachments/assets/07e5e308-16a8-44d8-9b65-d92de4f62e02" />
 
-Terminal
+TerminalInfo
 <img width="662" height="175" alt="image" src="https://github.com/user-attachments/assets/430382a4-abe7-409d-9d20-4fbe9fbf80db" />
 
 

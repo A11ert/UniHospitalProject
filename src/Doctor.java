@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Doctor {
-    private String id;
+    private int id;
     private String name;
     private int maxAppointments;
     private List<Appointment> appointments;
@@ -13,17 +13,17 @@ public class Doctor {
         this.appointments = new ArrayList<>();
     }
 
-    public Doctor(String id, String name, int maxAppointments){
+    public Doctor(int id, String name, int maxAppointments){
         this.appointments = new ArrayList<>();
         setId(id);
         setName(name);
         setMaxAppointments(maxAppointments);
     }
 
-    public String getId(){
+    public int getId(){
         return id;
     }
-    public void setId(String id){
+    public void setId(int id){
         if(id==null || id.isBlank()){
             throw new IllegalArgumentException("Doctor id can't be empty.");
         }
@@ -57,22 +57,21 @@ public class Doctor {
     //logic for booking
     public boolean booking(Appointment appointment){
         boolean f=false;
-        if(appointment.getDoctor().getName()!=name){
+        if(!appointment.getDoctor().getName().equals(name)){
             System.out.println("This appointment is for another doctor");
             return false;
         }
-        for(int i=0; i<appointments.size(); i++){
-            Appointment ap = appointments.get(i);
+        for (Appointment ap : appointments) {
             //skip canceled status;
-            if(ap.getStatus()==AppointmentStatus.CANCELLED)continue;
+            if (ap.getStatus() == AppointmentStatus.CANCELLED) continue;
             //if new appointment is after start of other appointment but before its end
-            if(ap.getStartTime().isBefore(appointment.getStartTime()) && ap.endTime().isAfter(appointment.getStartTime())){
-                f=true;
+            if (ap.getStartTime().isBefore(appointment.getStartTime()) && ap.endTime().isAfter(appointment.getStartTime())) {
+                f = true;
                 break;
             }
             // if new appointment if before start of other appointment but end after it
-            if(ap.getStartTime().isAfter(appointment.getStartTime()) && appointment.endTime().isAfter(ap.getStartTime())){
-                f=true;
+            if (ap.getStartTime().isAfter(appointment.getStartTime()) && appointment.endTime().isAfter(ap.getStartTime())) {
+                f = true;
                 break;
             }
         }
