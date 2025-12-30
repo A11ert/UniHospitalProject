@@ -23,31 +23,34 @@ public class Doctor {
     public int getId(){
         return id;
     }
-    public void setId(int id){
-        if(id==null || id.isBlank()){
-            throw new IllegalArgumentException("Doctor id can't be empty.");
+    public boolean setId(int id){
+        if(id<=0){
+            return false;
         }
         this.id=id;
+        return true;
     }
 
     public String getName(){
         return name;
     }
-    public void setName(String name){
+    public boolean setName(String name){
         if(name==null || name.isBlank()){
-            throw new IllegalArgumentException("Doctor name can't be empty.");
+            return false;
         }
         this.name=name;
+        return true;
     }
 
     public int getMaxAppointments(){
         return maxAppointments;
     }
-    public void setMaxAppointments(int number){
+    public boolean setMaxAppointments(int number){
         if(number<0){
-            throw new IllegalArgumentException("Max appointment can't be < 0.");
+            return false;
         }
         maxAppointments=number;
+        return true;
     }
 
     public List<Appointment> getAppointments() {
