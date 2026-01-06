@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient {
-
-    private int id;
-    private String name;
+public class Patient extends person{
     private int age;
     private int balance;
     private List<String> allergies;
@@ -21,23 +18,6 @@ public class Patient {
         setBalance(balance);
     }
 
-    public int getId(){return id;}
-    public boolean setId(int id){
-        if(id<=0){
-            return false;
-        }
-        this.id=id;
-        return true;
-    }
-
-    public String getName() {return name;}
-    public boolean setName(String name){
-        if(name==null || name.isBlank()){
-            return false;
-        }
-        this.name=name;
-        return true;
-    }
 
     public int getAge(){return age;}
     public boolean setAge(int age){
@@ -60,9 +40,8 @@ public class Patient {
     //method to charge for procedure or smth like that
     public boolean charge(int cost){
         if(cost<0){
-            throw new IllegalArgumentException("Charge can't be < 0.");
+            return false;
         }else if(balance-cost<0){
-            System.out.println("Not enough balance.");
             return false;
         }
         balance-=cost;
@@ -70,11 +49,12 @@ public class Patient {
     }
 
     // method to add balance
-    public void addBalance(int number){
+    public boolean addBalance(int number){
         if(number<=0){
-            throw new IllegalArgumentException("Number to add to balance can't be zero or less");
+            return false;
         }
         balance+=number;
+        return true;
     }
 
     //allergy

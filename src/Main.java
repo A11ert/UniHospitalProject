@@ -10,7 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         TerminalInfo terminal = new TerminalInfo();
 
-        terminal.StartInfo();
+        terminal.showMenu();
         while(on){
 
             int x=scanner.nextInt();
@@ -21,9 +21,20 @@ public class Main {
                 terminal.informationAboutDoctor();
             }else if(x==3){
                 terminal.BookAppointment();
+            }else if(x==4){
+                terminal.CancelAppointment();
+            }else if(x==5){
+                terminal.ViewAppointmentsForDoctor();
+            }else if(x==6){
+                terminal.AddMoneyToBalance();
+            }else if(x==7){
+                terminal.ChargePatient();
+            }
+            else if(x==0){
+                on=false;
             }
             else{
-                on=false;
+                System.out.print("Wrong number try again");
             }
         }
         System.out.println("Thanks for using!");

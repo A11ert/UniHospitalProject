@@ -31,19 +31,29 @@ public class TerminalInfo {
         for (Doctor d : alldoctor) if (d.getId() == id) return d;
         return null;
     }
-
-    public void StartInfo(){
-        System.out.println("=== HOSPITAL SYSTEM ===\n"
-                +"1.Add Patient\n"
-                +"2.Add Doctor\n"
-                +"3.Book appointment\n"
-                +"4.View all appointments for one doctor\n"
-                +"5.Cancel appointment\n"
-                +"6.Add allergy to patient\n");
+    public Appointment isAppointmentExists(int id){
+        for (Appointment a : allappointment) if (a.getId() == id) return a;
+        return null;
     }
-
+    //start
+    public void showMenu() {
+        System.out.println("====================================");
+        System.out.println("        HOSPITAL MANAGEMENT");
+        System.out.println("====================================");
+        System.out.println("1) Add Patient");
+        System.out.println("2) Add Doctor");
+        System.out.println("3) Book Appointment");
+        System.out.println("4) View Cancel Appointment");
+        System.out.println("5) View Doctor Appointments");
+        System.out.println("6) Add money to Patient");
+        System.out.println("7) Charge Patient");
+        System.out.println("0) Exit");
+        System.out.println("====================================");
+        System.out.print("Choose option: ");
+    }
+    //1
     public void InformationAboutPatient(){
-        System.out.println("Write the information about him.");
+        System.out.println("Write the information about patient.");
         System.out.print("ID : ");
         int id=scanner.nextInt();
         scanner.nextLine();
@@ -57,31 +67,31 @@ public class TerminalInfo {
         Patient p=new Patient(1,"X",1,1);
 
         if(!p.setId(id)){
-            System.out.println("Id is incorrect try again.");
+            System.out.println("ID is incorrect try again.\n");
             return;
         }
         if(!isUniquePatient(id)){
-            System.out.println("Id already exists, try again.");
+            System.out.println("Patient with such ID already exists, try another one.\n");
             return;
         }
         if(!p.setName(name)){
-            System.out.println("Name is incorrect try again.");
+            System.out.println("Name is incorrect try again.\n");
             return;
         }
         if(!p.setAge(age)){
-            System.out.println("Age can't be negative, try again.");
+            System.out.println("Age can't be negative, try again.\n");
             return;
         }
         if(!p.setBalance(balance)){
-            System.out.println("Balance can't be negative, try again.");
+            System.out.println("Balance can't be negative, try again.\n");
             return;
         }
         allpatients.add(p);
-        System.out.println("Patient created.");
+        System.out.println("Patient created.\n");
     }
-
+    //2
     public void informationAboutDoctor(){
-        System.out.println("Write the information about him.");
+        System.out.println("Write the information about doctor.");
         System.out.print("ID : ");
         int id=scanner.nextInt();
         scanner.nextLine();
@@ -92,25 +102,26 @@ public class TerminalInfo {
         Doctor d=new Doctor(1,"X",1);
 
         if(!d.setId(id)){
-            System.out.println("Id is incorrect try again.");
+            System.out.println("ID is incorrect try again.\n");
             return;
         }
         if(!isUniqueDoctor(id)){
-            System.out.println("Id already exists, try again.");
+            System.out.println("Doctor with such ID already exists, try another one.\n");
             return;
         }
         if(!d.setName(name)){
-            System.out.println("Name is incorrect try again.");
+            System.out.println("Name is incorrect try again.\n");
             return;
         }
         if(!d.setMaxAppointments(age)){
-            System.out.println("Max appointments per day can't be negative.");
+            System.out.println("Max appointments per day can't be negative.\n");
             return;
         }
         alldoctor.add(d);
         System.out.println("Doctor created.");
+        System.out.println("");
     }
-
+    //3
     public void BookAppointment(){
         System.out.println("Write information about appointment.");
         System.out.print("ID of the appointment : ");
@@ -126,27 +137,27 @@ public class TerminalInfo {
         int duration = scanner.nextInt();
 
         if(id <= 0){
-            System.out.println("Id must be positive.");
+            System.out.println("ID must be positive.\n");
             return;
         }
         if(duration <= 0){
-            System.out.println("Duration must be >= 1.");
+            System.out.println("Duration must be >= 1.\n");
             return;
         }
         if(!isUniqueAppointment(id)){
-            System.out.println("Appointment with this ID already exists.");
+            System.out.println("Appointment with this ID already exists.\n");
             return;
         }
 
         Patient p = isPatientExists(id_p);
         if(p == null){
-            System.out.println("Patient with this ID doesn't exist!");
+            System.out.println("Patient with this ID doesn't exist!\n");
             return;
         }
 
         Doctor d = isDoctorExists(id_d);
         if(d == null){
-            System.out.println("Doctor with this ID doesn't exist!");
+            System.out.println("Doctor with this ID doesn't exist!\n");
             return;
         }
 
@@ -154,7 +165,7 @@ public class TerminalInfo {
         try {
             startTime = LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } catch (Exception e) {
-            System.out.println("Wrong date/time format. Use YYYY-MM-DD HH:MM");
+            System.out.println("Wrong date/time format. Use YYYY-MM-DD HH:MM\n");
             return;
         }
 
@@ -165,6 +176,72 @@ public class TerminalInfo {
 
         allappointment.add(appointment);
         System.out.println("Appointment booked.");
+        System.out.println("");
+    }
+    //4
+    public void CancelAppointment(){
+        System.out.println("Write ID of the appointment : ");
+        int id= scanner.nextInt();
+        if(isAppointmentExists(id)==null){
+            System.out.print("There is no appointment with such ID!\n");
+            return;
+        }
+        Appointment appointment=isAppointmentExists(id);
+        appointment.cancel();
+        System.out.print("Appointment with ID : "+id
+                + " was canceled.\n");
+    }
+    //5
+    public void ViewAppointmentsForDoctor(){
+        System.out.print("ID of the doctor : ");
+        int id=scanner.nextInt();
+        if(isDoctorExists(id)==null){
+            System.out.print("There is no doctor with such ID\n");
+            return;
+        }
+        Doctor d=isDoctorExists(id);
+        d.printAppointments();
+        System.out.println("");
+    }
+    //6
+    public void AddMoneyToBalance(){
+        System.out.print("ID of the patient : ");
+        int id=scanner.nextInt();
+        if(isPatientExists(id)==null){
+            System.out.print("There is no patient with such ID\n");
+            return;
+        }
+        Patient p=isPatientExists(id);
+        System.out.print("How much do you want to add : ");
+        int x=scanner.nextInt();
+        if(!p.addBalance(x)){
+            System.out.print("Amount can't be negative.");
+            return;
+        }
+        p.addBalance(x);
+        System.out.print("Money were added to patient with id : " + id
+                + ".\n");
+        System.out.println("");
+    }
+    //7
+    public void ChargePatient(){
+        System.out.print("ID of the patient : ");
+        int id=scanner.nextInt();
+        if(isPatientExists(id)==null){
+            System.out.print("There is no patient with such ID\n");
+            return;
+        }
+        Patient p=isPatientExists(id);
+        System.out.print("How much do you want to charge : ");
+        int x=scanner.nextInt();
+        if(!p.charge(x)){
+            System.out.print("Not enough balance or charge can't be negative.");
+            return;
+        }
+        p.charge(x);
+        System.out.print("Patient with id : "+id
+                + " was charged.\n");
+        System.out.println("");
     }
 
 

@@ -3,9 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Doctor {
-    private int id;
-    private String name;
+public class Doctor extends person{
     private int maxAppointments;
     private List<Appointment> appointments;
 
@@ -18,28 +16,6 @@ public class Doctor {
         setId(id);
         setName(name);
         setMaxAppointments(maxAppointments);
-    }
-
-    public int getId(){
-        return id;
-    }
-    public boolean setId(int id){
-        if(id<=0){
-            return false;
-        }
-        this.id=id;
-        return true;
-    }
-
-    public String getName(){
-        return name;
-    }
-    public boolean setName(String name){
-        if(name==null || name.isBlank()){
-            return false;
-        }
-        this.name=name;
-        return true;
     }
 
     public int getMaxAppointments(){
@@ -92,16 +68,18 @@ public class Doctor {
     }
 
     public void printAppointments() {
-        if (appointments.isEmpty()) {
-            System.out.println("No appointments.");
-            return;
-        }
-        for (int i = 0; i < appointments.size(); i++) {
-            System.out.println("Appointment: " + (i + 1));
-            System.out.println("Id : " + appointments.get(i).getId() + ", At : " + appointments.get(i).getStartTime());
-
+        System.out.println("ID  | Doctor    | Patient   | Start              | Status");
+        System.out.println("----+----------+-----------+--------------------+--------");
+        for (Appointment a : appointments) {
+            System.out.printf("%-3d | %-9s | %-9s | %-19s | %s%n",
+                    a.getId(),
+                    a.getDoctor().getName(),
+                    a.getPatient().getName(),
+                    a.getStartTime(),
+                    a.getStatus());
         }
     }
+
 
     @Override
     public String toString() {
