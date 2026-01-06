@@ -1,67 +1,88 @@
-# Hospital Management System (OOP / Encapsulation) — Java
+# Hospital Management System (Java, Console)
 
-A small **university OOP project** that models a simple hospital scheduling system.  
-Focus: **Encapsulation**, constructors, getters/setters, and basic business logic.
+A simple **console-based Hospital Management System** built for a university project.  
+The program allows you to manage **patients**, **doctors**, and **appointments**, including booking and cancelling appointments and handling patient balances.
 
 ---
 
 ## Features
 
-### Patient
-- Stores patient info: **id, name, age, balance**
-- Manages **allergies** list
-- Logic:
-  - `charge(cost)` — subtracts money if enough balance
-  - `addAllergy(allergy)` — adds allergy (no duplicates)
-  - `getAllergies()` — returns a copy (protects encapsulation)
+- **Add Patient**
+  - Stores: `id`, `name`, `age`, `balance`
+  - Validates input (positive ID, non-empty name, age > 0, balance ≥ 0)
+  - Prevents duplicate patient IDs
 
-### Doctor
-- Stores doctor info: **id, name, maxAppointments**
-- Holds a private list of `Appointment`
-- Logic:
-  - `booking(appointment)` — books only if time is free (checks overlap)
-  - `printAppointments()` — prints all booked appointments
-  - `getAppointments()` — returns a copy of list
+- **Add Doctor**
+  - Stores: `id`, `name`, `maxAppointmentsPerDay`
+  - Validates input and prevents duplicate doctor IDs
 
-### Appointment
-- Stores appointment info: **id, patient, doctor, startTime, durationMinutes, status**
-- Logic:
-  - `endTime()` — calculates end time from start + duration
-  - `cancel()` — sets status to `CANCELLED`
-  - `toString()` — prints appointment info in multiple lines
+- **Book Appointment**
+  - Links an appointment to an existing **patient** and **doctor**
+  - Parses appointment start time in format: `YYYY-MM-DD HH:MM`
+  - Duration is in minutes and must be ≥ 1
+  - Prevents overlapping appointments for the same doctor
+  - Prevents duplicate appointment IDs
 
-### AppointmentStatus (Enum)
-- `SCHEDULED`, `CANCELLED`
-- can be changed to `COMPLETE`
+- **Cancel Appointment**
+  - Marks an appointment as cancelled
+
+- **View Doctor Appointments**
+  - Prints all appointments for a specific doctor in a table format
+
+- **Patient Balance Management**
+  - Add money to a patient's balance
+  - Charge a patient (only if balance is enough)
 
 ---
 
-## Project Structure
+## Project Structure (Classes)
 
-src:
+- `Main`
+  - Starts the application and reads menu choices in a loop.
 
--Patient.java
+- `TerminalInfo`
+  - Console UI + main logic.
+  - Stores all lists:
+    - `List<Patient> allpatients`
+    - `List<Doctor> alldoctor`
+    - `List<Appointment> allappointment`
+  - Contains methods for each menu action.
 
--Doctor.java
+- `person`
+  - Base class for `Patient` and `Doctor`.
+  - Fields: `id`, `name`
+  - Includes validation setters.
 
--Appointment.java
+- `Patient extends person`
+  - Fields: `age`, `balance`, `allergies`
+  - Methods:
+    - `addBalance(int)`
+    - `charge(int)`
+    - `addAllergy(String)` (duplicate-safe)
 
--AppointmentStatus.java
+- `Doctor extends person`
+  - Fields: `maxAppointments`, `appointments`
+  - Booking logic checks schedule overlaps and stores appointments.
+  - `printAppointments()` prints formatted output.
 
--Main.java
+- `Appointment`
+  - Fields: `id`, `patient`, `doctor`, `startTime`, `durationMinutes`, `status`
+  - Methods:
+    - `endTime()`
+    - `cancel()`
+    - `toString()`
 
-## Working process
-### Balance and Charge method
-<img width="1009" height="423" alt="image" src="https://github.com/user-attachments/assets/07af4b7a-701b-4c98-a1de-f89dbf5d5626" />
-15000 balance to -><img width="275" height="115" alt="image" src="https://github.com/user-attachments/assets/b4fa9cbf-0ff5-4e3f-939a-6666eae30c7e" />
+---
 
+## How to Run
 
-### Appointment
-<img width="1288" height="451" alt="image" src="https://github.com/user-attachments/assets/07e5e308-16a8-44d8-9b65-d92de4f62e02" />
+### Option 1: IntelliJ IDEA
+1. Open the project.
+2. Run `Main.java`.
 
-TerminalInfo
-<img width="662" height="175" alt="image" src="https://github.com/user-attachments/assets/430382a4-abe7-409d-9d20-4fbe9fbf80db" />
+### Option 2: Command Line
+From the folder containing your `.java` files:
 
-
-
-
+```bash
+javac *.java
+java Main
