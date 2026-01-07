@@ -10,7 +10,7 @@ public class TerminalInfo {
     private final List<Person> people = new ArrayList<>();
     private final List<Appointment> allappointment = new ArrayList<>();
 
-    // -------- INPUT HELPERS (NO nextInt used anywhere) --------
+    //check for right input
     private String readLine(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine().trim();
@@ -63,6 +63,7 @@ public class TerminalInfo {
         }
     }
 
+    //options
     private int readMenuOption() {
         while (true) {
             int x = readInt("Choose option: ");
@@ -71,7 +72,7 @@ public class TerminalInfo {
         }
     }
 
-    // -------- SEARCH / VALIDATION --------
+    // check for existing or uniqueness
     public boolean isUniquePatient(int id) {
         for (Person p : people) {
             if (p instanceof Patient && p.getId() == id) return false;
@@ -114,7 +115,7 @@ public class TerminalInfo {
         System.out.println();
     }
 
-    // -------- MENU --------
+    // menu
     public void showMenu() {
         System.out.println("====================================");
         System.out.println("        HOSPITAL MANAGEMENT");
@@ -131,28 +132,25 @@ public class TerminalInfo {
         System.out.println("====================================");
     }
 
+    //base
     public void run() {
         boolean on = true;
-
         while (on) {
             showMenu();
             int x = readMenuOption();
-
-            switch (x) {
-                case 1 -> InformationAboutPatient();
-                case 2 -> informationAboutDoctor();
-                case 3 -> BookAppointment();
-                case 4 -> CancelAppointment();
-                case 5 -> ViewAppointmentsForDoctor();
-                case 6 -> AddMoneyToBalance();
-                case 7 -> ChargePatient();
-                case 8 -> ViewAllPeople();
-                case 0 -> on = false;
-            }
+            if(x==1)InformationAboutPatient();
+            else if(x==2)InformationAboutDoctor();
+            else if(x==3)BookAppointment();
+            else if(x==4)CancelAppointment();
+            else if(x==5)ViewAppointmentsForDoctor();
+            else if(x==6)AddMoneyToBalance();
+            else if(x==7)ChargePatient();
+            else if(x==8)ViewAllPeople();
+            else if(x==0)on=false;
         }
     }
 
-    // -------- FUNCTIONS --------
+    // functions
     public void InformationAboutPatient() {
         System.out.println("Write the information about patient.");
 
@@ -174,7 +172,7 @@ public class TerminalInfo {
         next();
     }
 
-    public void informationAboutDoctor() {
+    public void InformationAboutDoctor() {
         System.out.println("Write the information about doctor.");
 
         int id = readPositiveInt("ID: ");
