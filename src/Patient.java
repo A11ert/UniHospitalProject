@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient extends person{
+public class Patient extends Person{
     private int age;
     private int balance;
     private List<String> allergies;
@@ -69,6 +69,9 @@ public class Patient extends person{
             allergies.add(allergy);
         }
     }
+
+    @Override
+    public String getRole() { return "Patient"; }
 
     @Override
     public String toString() {

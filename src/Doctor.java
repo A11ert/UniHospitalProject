@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Doctor extends person{
+public class Doctor extends Person{
     private int maxAppointments;
     private List<Appointment> appointments;
 
@@ -80,6 +80,8 @@ public class Doctor extends person{
         }
     }
 
+    @Override
+    public String getRole() { return "Doctor"; }
 
     @Override
     public String toString() {
