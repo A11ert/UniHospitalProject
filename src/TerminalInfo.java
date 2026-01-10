@@ -67,7 +67,7 @@ public class TerminalInfo {
     private int readMenuOption() {
         while (true) {
             int x = readInt("Choose option: ");
-            if (x >= 0 && x <= 8) return x;
+            if (x >= 0 && x <= 9) return x;
             System.out.println("Wrong number, try again.");
         }
     }
@@ -128,6 +128,7 @@ public class TerminalInfo {
         System.out.println("6) Add money to Patient");
         System.out.println("7) Charge Patient");
         System.out.println("8) View all people");
+        System.out.println("9) View all Appointments");
         System.out.println("0) Exit");
         System.out.println("====================================");
     }
@@ -146,6 +147,7 @@ public class TerminalInfo {
             else if(x==6)AddMoneyToBalance();
             else if(x==7)ChargePatient();
             else if(x==8)ViewAllPeople();
+            else if(x==9)ViewAllAppointments();
             else if(x==0)on=false;
         }
     }
@@ -186,6 +188,7 @@ public class TerminalInfo {
         if (!d.setName(name)) { System.out.println("Name is incorrect.\n"); return; }
         if (!d.setMaxAppointments(max)) { System.out.println("Max appointments can't be negative.\n"); return; }
 
+
         people.add(d);
         System.out.println("Doctor created.");
         next();
@@ -220,6 +223,7 @@ public class TerminalInfo {
         Appointment appointment = new Appointment(id, p, d, startTime, duration);
         if (!d.booking(appointment)) {
             next();
+            System.out.println("Another appointment already exists at this time.");
             return;
         }
 
@@ -314,6 +318,26 @@ public class TerminalInfo {
             if (p instanceof Patient) System.out.println(p);
         }
 
+        next();
+    }
+    public void ViewAllAppointments(){
+        int count=0;
+        for(Person d:people){
+            if(d instanceof Doctor){
+                count+=((Doctor) d).getAppointmentCount();
+            }
+        }
+        System.out.println("Total number of appointments : "+count+"\n");
+        for(Person d:people){
+            if(d instanceof Doctor){
+                System.out.println("Doctor : "+ d.getName() + " |  Number of appointments : "+ ((Doctor) d).getAppointmentCount() + "\n");
+                for(Appointment a:allappointment){
+                    if(a.getDoctor().getId()==d.getId()){
+                        System.out.println("ID : "+a.getId() + " |  Status : "+ a.getStatus()+ " |  Time : "+ a.getStartTime() + " |  Duration : "+a.getDurationMinutes()+"\n");
+                    }
+                }
+            }
+        }
         next();
     }
 }

@@ -40,19 +40,15 @@ public class Doctor extends Person{
             System.out.println("This appointment is for another doctor");
             return false;
         }
+        LocalDateTime newStart = appointment.getStartTime();
+        LocalDateTime newEnd=appointment.getStartTime().plusMinutes(appointment.getDurationMinutes());
         for (Appointment ap : appointments) {
-            //skip canceled status;
-            if (ap.getStatus() == AppointmentStatus.CANCELLED) continue;
-            //if new appointment is after start of other appointment but before its end
-            if (ap.getStartTime().isBefore(appointment.getStartTime()) && ap.endTime().isAfter(appointment.getStartTime())) {
-                f = true;
-                break;
+            LocalDateTime existingStart = ap.getStartTime();
+            LocalDateTime existingEnd=ap.getStartTime().plusMinutes(appointment.getDurationMinutes());
+            if(newStart.isBefore(existingEnd) && existingStart.isBefore(newEnd)){
+                return false;
             }
-            // if new appointment if before start of other appointment but end after it
-            if (ap.getStartTime().isAfter(appointment.getStartTime()) && appointment.endTime().isAfter(ap.getStartTime())) {
-                f = true;
-                break;
-            }
+            return true;
         }
         if(f){
             System.out.println("It's impossible to book appointment for doctor "+appointment.getDoctor().getName() + " at : "+ appointment.getStartTime() +".");
@@ -69,7 +65,7 @@ public class Doctor extends Person{
 
     public void printAppointments() {
         System.out.println("ID  | Doctor    | Patient   | Start              | Status");
-        System.out.println("----+----------+-----------+--------------------+--------");
+        System.out.println("----+-----------+-----------+--------------------+--------");
         for (Appointment a : appointments) {
             System.out.printf("%-3d | %-9s | %-9s | %-19s | %s%n",
                     a.getId(),
