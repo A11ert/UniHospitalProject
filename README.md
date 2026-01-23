@@ -1,88 +1,45 @@
-# Hospital Management System (Java, Console)
+# Hospital Management System (Java, OOP)
 
-A simple **console-based Hospital Management System** built for a university project.  
-The program allows you to manage **patients**, **doctors**, and **appointments**, including booking and cancelling appointments and handling patient balances.
+Console-based Hospital Management System built with OOP principles.  
+You can manage **patients**, **doctors**, and **appointments** using a terminal menu.
 
 ---
 
 ## Features
-
-- **Add model.Patient**
-  - Stores: `id`, `name`, `age`, `balance`
-  - Validates input (positive ID, non-empty name, age > 0, balance ≥ 0)
-  - Prevents duplicate patient IDs
-
-- **Add model.Doctor**
-  - Stores: `id`, `name`, `maxAppointmentsPerDay`
-  - Validates input and prevents duplicate doctor IDs
-
-- **Book model.Appointment**
-  - Links an appointment to an existing **patient** and **doctor**
-  - Parses appointment start time in format: `YYYY-MM-DD HH:MM`
-  - Duration is in minutes and must be ≥ 1
-  - Prevents overlapping appointments for the same doctor
-  - Prevents duplicate appointment IDs
-
-- **Cancel model.Appointment**
-  - Marks an appointment as cancelled
-
-- **View model.Doctor Appointments**
-  - Prints all appointments for a specific doctor in a table format
-
-- **model.Patient Balance Management**
-  - Add money to a patient's balance
-  - Charge a patient (only if balance is enough)
+- Add Patient
+- Add Doctor
+- Book Appointment (with date & time)
+- Cancel Appointment
+- View appointments for a doctor
+- Add money to patient balance
+- Charge patient balance
+- View all people
+- View all appointments
 
 ---
 
-## Project Structure (Classes)
+## Project Structure
+- `menu/`
+  - `TerminalInfo` (menu + user input, calls logic)
+  - `Menu` (interface with `displayMenu()` and `run()`)
 
-- `Main`
-  - Starts the application and reads menu.Menu choices in a loop.
+- `model/`
+  - `Person` (abstract parent class)
+  - `Patient`, `Doctor` (child classes)
+  - `Appointment`, `AppointmentStatus` (appointment model)
 
-- `menu.TerminalInfo`
-  - Console UI + main logic.
-  - Stores all lists:
-    - `List<model.Patient> allpatients`
-    - `List<model.Doctor> alldoctor`
-    - `List<model.Appointment> allappointment`
-  - Contains methods for each menu.Menu action.
-
-- `person`
-  - Base class for `model.Patient` and `model.Doctor`.
-  - Fields: `id`, `name`
-  - Includes validation setters.
-
-- `model.Patient extends person`
-  - Fields: `age`, `balance`, `allergies`
-  - Methods:
-    - `addBalance(int)`
-    - `charge(int)`
-    - `addAllergy(String)` (duplicate-safe)
-
-- `model.Doctor extends person`
-  - Fields: `maxAppointments`, `appointments`
-  - Booking logic checks schedule overlaps and stores appointments.
-  - `printAppointments()` prints formatted output.
-
-- `model.Appointment`
-  - Fields: `id`, `patient`, `doctor`, `startTime`, `durationMinutes`, `status`
-  - Methods:
-    - `endTime()`
-    - `cancel()`
-    - `toString()`
+- `exception/` (optional if used)
+  - Custom exceptions (if you created any)
 
 ---
 
-## How to Run
+## OOP Concepts Used
+- **Inheritance:** `Patient` and `Doctor` extend `Person`
+- **Polymorphism:** List of `Person` can store both `Doctor` and `Patient`
+- **Abstraction:** `Person` is abstract (common fields + required methods)
+- **Encapsulation:** fields are private/protected and validated using setters
+- **Interface:** `Menu` (and `Payable` if you use it)
 
-### Option 1: IntelliJ IDEA
-1. Open the project.
-2. Run `Main.java`.
+---
 
-### Option 2: Command Line
-From the folder containing your `.java` files:
 
-```bash
-javac *.java
-java Main
