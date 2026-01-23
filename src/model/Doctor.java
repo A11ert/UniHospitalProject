@@ -1,9 +1,10 @@
-import java.time.LocalDate;
+package model;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Doctor extends Person{
+public class Doctor extends Person {
     private int maxAppointments;
     private List<Appointment> appointments;
 
@@ -21,12 +22,11 @@ public class Doctor extends Person{
     public int getMaxAppointments(){
         return maxAppointments;
     }
-    public boolean setMaxAppointments(int number){
+    public void setMaxAppointments(int number){
         if(number<0){
-            return false;
+            throw new IllegalArgumentException("max appointments number can't be lower than zero");
         }
         maxAppointments=number;
-        return true;
     }
 
     public List<Appointment> getAppointments() {
@@ -34,17 +34,15 @@ public class Doctor extends Person{
     }
 
     //logic for booking
-    public boolean booking(Appointment appointment){
+    public void booking(Appointment appointment){
         LocalDateTime newStart = appointment.getStartTime();
         LocalDateTime newEnd=appointment.endTime();
         for (Appointment ap : appointments) {
             if(newStart.isBefore(ap.endTime()) && ap.getStartTime().isBefore(newEnd)){
-                return false;
+                throw new IllegalArgumentException("Another appointment exists at this time");
             }
-            return true;
         }
         appointments.add(appointment);
-        return true;
     }
 
     public int getAppointmentCount() {
@@ -52,7 +50,7 @@ public class Doctor extends Person{
     }
 
     public void printAppointments() {
-        System.out.println("ID  | Doctor    | Patient   | Start              | Status");
+        System.out.println("ID  | exceptions.Doctor    | exceptions.Patient   | Start              | Status");
         System.out.println("----+-----------+-----------+--------------------+--------");
         for (Appointment a : appointments) {
             System.out.printf("%-3d | %-9s | %-9s | %-19s | %s%n",
@@ -65,11 +63,16 @@ public class Doctor extends Person{
     }
 
     @Override
-    public String getRole() { return "Doctor"; }
+    public String getRole() { return "exceptions.Doctor"; }
+
+    @Override
+    public void work() {
+        System.out.println("Doctor " + name + " is treating patients.");
+    }
 
     @Override
     public String toString() {
-        return "Doctor " + name + ", id "+id+".";
+        return "exceptions.Doctor " + name + ", id "+id+".";
     }
 
 }

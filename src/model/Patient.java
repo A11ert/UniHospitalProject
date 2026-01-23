@@ -1,7 +1,9 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient extends Person{
+public class Patient extends Person implements Payable {
     private int age;
     private int balance;
     private List<String> allergies;
@@ -20,50 +22,52 @@ public class Patient extends Person{
 
 
     public int getAge(){return age;}
-    public boolean setAge(int age){
-        if(age<=0){
-            return false;
+    public void setAge(int age){
+        if(age<0){
+            throw new IllegalArgumentException("Age can't be negative");
         }
         this.age=age;
-        return true;
     }
 
     public int getBalance(){return balance;}
-    public boolean setBalance(int balance){
+    public void setBalance(int balance){
         if(balance<0){
-            return false;
+            throw new IllegalArgumentException("Balance can't be negative");
         }
         this.balance=balance;
-        return true;
     }
 
     //method to charge for procedure or smth like that
-    public boolean charge(int cost){
+    public void charge(int cost){
         if(cost<0){
-            return false;
+            throw new IllegalArgumentException("Cost of charge can't be negative");
         }else if(balance-cost<0){
-            return false;
+            throw new IllegalArgumentException("Not enough money in balance");
         }
         balance-=cost;
-        return true;
     }
 
     // method to add balance
-    public boolean addBalance(int number){
+    @Override
+    public void addBalance(int number){
         if(number<=0){
-            return false;
+            throw new IllegalArgumentException("Number should be positive");
         }
         balance+=number;
-        return true;
     }
 
 
     @Override
-    public String getRole() { return "Patient"; }
+    public String getRole() { return "exceptions.Patient"; }
+
+    @Override
+    public void work() {
+        System.out.println("Patient " + name + " is receiving treatment.");
+    }
 
     @Override
     public String toString() {
-        return "Patient : " + name
+        return "exceptions.Patient : " + name
                 + ", id : "+id
                 + ", age : "+ age
                 + ", balance : "+balance+".";

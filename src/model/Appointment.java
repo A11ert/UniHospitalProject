@@ -1,3 +1,5 @@
+package model;
+
 import java.time.LocalDateTime;
 
 public class Appointment {
@@ -22,57 +24,51 @@ public class Appointment {
     }
 
     public int getId(){return id;}
-    public boolean setId(int id){
+    public void setId(int id){
         if(id<=0){
-            return false;
+            throw new IllegalArgumentException("id should be positive");
         }
         this.id=id;
-        return true;
     }
 
     public Patient getPatient(){return patient;}
-    public boolean setPatient(Patient patient){
+    public void setPatient(Patient patient){
         if(patient==null){
-            return false;
+            throw new IllegalArgumentException("exceptions.Patient should be put");
         }
         this.patient=patient;
-        return true;
     }
 
     public Doctor getDoctor() { return doctor;}
-    public boolean setDoctor(Doctor doctor) {
+    public void setDoctor(Doctor doctor) {
         if (doctor == null) {
-            return false;
+            throw new IllegalArgumentException("exceptions.Doctor should be put");
         }
         this.doctor = doctor;
-        return true;
     }
 
     public LocalDateTime getStartTime(){return startTime;}
-    public boolean setStartTime(LocalDateTime startTime){
+    public void setStartTime(LocalDateTime startTime){
         if(startTime==null){
-            return false;
+            throw new IllegalArgumentException("Start time of appointment should be set");
         }
         this.startTime=startTime;
-        return true;
     }
 
     public int getDurationMinutes(){return durationMinutes;}
-    public boolean setDurationMinutes(int durationMinutes){
+    public void setDurationMinutes(int durationMinutes){
         if(durationMinutes<=0){
-            return false;
+            throw new IllegalArgumentException("Duration of an appointment should be positive");
         }
         this.durationMinutes=durationMinutes;
-        return true;
     }
 
     public AppointmentStatus getStatus(){return status;}
-    public boolean setStatus(AppointmentStatus status){
+    public void setStatus(AppointmentStatus status){
         if(status==null){
-            return false;
+            throw new IllegalArgumentException("Status is null");
         }
         this.status=status;
-        return true;
     }
 
     public LocalDateTime endTime(){
@@ -84,9 +80,9 @@ public class Appointment {
 
     @Override
     public String toString(){
-        return "Appointment id : "+id+"\n"
-                + "Patient : " + patient.getName() + "\n"
-                + "Doctor : " + doctor.getName() + "\n"
+        return "exceptions.Appointment id : "+id+"\n"
+                + "exceptions.Patient : " + patient.getName() + "\n"
+                + "exceptions.Doctor : " + doctor.getName() + "\n"
                 + "Start time : " + startTime + "\n"
                 + "Duration time : " + durationMinutes + "\n"
                 + "Status : " + status + "\n";

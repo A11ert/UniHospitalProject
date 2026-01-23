@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Person {
     protected int id;
     protected String name;
@@ -10,25 +12,24 @@ public abstract class Person {
     }
 
     public int getId() {return id;}
-    public boolean setId(int id) {
+    public void setId(int id) {
         if (id <= 0) {
-            return false;
+            throw new IllegalArgumentException("id can't be negative");
         }
         this.id = id;
-        return true;
     }
 
     public String getName() {return name;}
-    public boolean setName(String name) {
+    public void setName(String name) {
         if (name == null || name.isBlank()) {
-            return false;
+            throw new IllegalArgumentException("Name can't be blank or null");
         }
         this.name = name;
-        return true;
     }
 
     // polymorphic method
     public abstract String getRole();
+    public abstract void work();
 
     @Override
     public String toString() {

@@ -7,29 +7,29 @@ The program allows you to manage **patients**, **doctors**, and **appointments**
 
 ## Features
 
-- **Add Patient**
+- **Add model.Patient**
   - Stores: `id`, `name`, `age`, `balance`
   - Validates input (positive ID, non-empty name, age > 0, balance ≥ 0)
   - Prevents duplicate patient IDs
 
-- **Add Doctor**
+- **Add model.Doctor**
   - Stores: `id`, `name`, `maxAppointmentsPerDay`
   - Validates input and prevents duplicate doctor IDs
 
-- **Book Appointment**
+- **Book model.Appointment**
   - Links an appointment to an existing **patient** and **doctor**
   - Parses appointment start time in format: `YYYY-MM-DD HH:MM`
   - Duration is in minutes and must be ≥ 1
   - Prevents overlapping appointments for the same doctor
   - Prevents duplicate appointment IDs
 
-- **Cancel Appointment**
+- **Cancel model.Appointment**
   - Marks an appointment as cancelled
 
-- **View Doctor Appointments**
+- **View model.Doctor Appointments**
   - Prints all appointments for a specific doctor in a table format
 
-- **Patient Balance Management**
+- **model.Patient Balance Management**
   - Add money to a patient's balance
   - Charge a patient (only if balance is enough)
 
@@ -38,34 +38,34 @@ The program allows you to manage **patients**, **doctors**, and **appointments**
 ## Project Structure (Classes)
 
 - `Main`
-  - Starts the application and reads menu choices in a loop.
+  - Starts the application and reads menu.Menu choices in a loop.
 
-- `TerminalInfo`
+- `menu.TerminalInfo`
   - Console UI + main logic.
   - Stores all lists:
-    - `List<Patient> allpatients`
-    - `List<Doctor> alldoctor`
-    - `List<Appointment> allappointment`
-  - Contains methods for each menu action.
+    - `List<model.Patient> allpatients`
+    - `List<model.Doctor> alldoctor`
+    - `List<model.Appointment> allappointment`
+  - Contains methods for each menu.Menu action.
 
 - `person`
-  - Base class for `Patient` and `Doctor`.
+  - Base class for `model.Patient` and `model.Doctor`.
   - Fields: `id`, `name`
   - Includes validation setters.
 
-- `Patient extends person`
+- `model.Patient extends person`
   - Fields: `age`, `balance`, `allergies`
   - Methods:
     - `addBalance(int)`
     - `charge(int)`
     - `addAllergy(String)` (duplicate-safe)
 
-- `Doctor extends person`
+- `model.Doctor extends person`
   - Fields: `maxAppointments`, `appointments`
   - Booking logic checks schedule overlaps and stores appointments.
   - `printAppointments()` prints formatted output.
 
-- `Appointment`
+- `model.Appointment`
   - Fields: `id`, `patient`, `doctor`, `startTime`, `durationMinutes`, `status`
   - Methods:
     - `endTime()`
