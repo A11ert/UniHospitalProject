@@ -7,7 +7,7 @@ public class Patient extends Person{
     private List<String> allergies;
 
     public Patient() {
-        this.allergies = new ArrayList<>();
+
     }
 
     public Patient(int id, String name, int age, int balance){
@@ -57,18 +57,6 @@ public class Patient extends Person{
         return true;
     }
 
-    //allergy
-    public List<String> getAllergies() {
-        return new ArrayList<>(allergies);
-    }
-    public void addAllergy(String allergy) {
-        if (allergy == null || allergy.isBlank()){
-            throw new IllegalArgumentException("Allergy cannot be empty.");
-        }
-        if (!allergies.contains(allergy)){
-            allergies.add(allergy);
-        }
-    }
 
     @Override
     public String getRole() { return "Patient"; }

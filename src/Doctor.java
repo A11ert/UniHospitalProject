@@ -35,25 +35,13 @@ public class Doctor extends Person{
 
     //logic for booking
     public boolean booking(Appointment appointment){
-        boolean f=false;
-        if(!appointment.getDoctor().getName().equals(name)){
-            System.out.println("This appointment is for another doctor");
-            return false;
-        }
         LocalDateTime newStart = appointment.getStartTime();
-        LocalDateTime newEnd=appointment.getStartTime().plusMinutes(appointment.getDurationMinutes());
+        LocalDateTime newEnd=appointment.endTime();
         for (Appointment ap : appointments) {
-            LocalDateTime existingStart = ap.getStartTime();
-            LocalDateTime existingEnd=ap.getStartTime().plusMinutes(appointment.getDurationMinutes());
-            if(newStart.isBefore(existingEnd) && existingStart.isBefore(newEnd)){
+            if(newStart.isBefore(ap.endTime()) && ap.getStartTime().isBefore(newEnd)){
                 return false;
             }
             return true;
-        }
-        if(f){
-            System.out.println("It's impossible to book appointment for doctor "+appointment.getDoctor().getName() + " at : "+ appointment.getStartTime() +".");
-
-            return false;
         }
         appointments.add(appointment);
         return true;

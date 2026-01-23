@@ -3,6 +3,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class TerminalInfo {
     private final Scanner scanner = new Scanner(System.in);
@@ -51,14 +52,14 @@ public class TerminalInfo {
         }
     }
 
-    private LocalDateTime readDateTime(String prompt) {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        while (true) {
-            String s = readLine(prompt);
-            try {
-                return LocalDateTime.parse(s, fmt);
-            } catch (Exception e) {
-                System.out.println("Wrong format. Use YYYY-MM-DD HH:MM (example: 2026-01-06 10:30)");
+    private LocalDateTime readDateTime(String prompt){
+        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        while(true){
+            String in=readLine(prompt);
+            try{
+                return LocalDateTime.parse(in,format);
+            }catch (Exception e){
+                System.out.println("Wrong time format. Use YYYY-MM-DD HH:MM (example: 2026-01-06 10:30).");
             }
         }
     }
@@ -223,7 +224,7 @@ public class TerminalInfo {
         Appointment appointment = new Appointment(id, p, d, startTime, duration);
         if (!d.booking(appointment)) {
             next();
-            System.out.println("Another appointment already exists at this time.");
+            System.out.println("Another appointment already exists at this time or id's doesn't match.");
             return;
         }
 
@@ -240,7 +241,6 @@ public class TerminalInfo {
             System.out.println("There is no appointment with such ID!\n");
             return;
         }
-
         appointment.cancel();
         System.out.println("Appointment with ID: " + id + " was canceled.");
         next();

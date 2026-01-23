@@ -27,7 +27,7 @@ public abstract class Person {
         return true;
     }
 
-    // Polymorphic method: each subclass MUST define what it is
+    // polymorphic method
     public abstract String getRole();
 
     @Override
